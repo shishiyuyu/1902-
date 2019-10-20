@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        /* 
+            cookie: 用来存放数据， 数据存储的大小有限制，cookie
+            也可以长时间存放数据，但是需要设置过期时间:expires
+            cookie默认过期时间是临时存储，浏览器关闭的时候数据会消失
+            cookie 可以存储多条数据，同时也可以读取数据，
+            读取的方法是： document.cookie,这个方法是一个可读
+            可写的方法，如果有多条cookie,那么每条cookie是通过
+            分号和空格隔开
+            过期时间的设置方法：document.cookie='name=Alice;expires=' + time
+        */
+
+        window.onload = function() {
+            document.cookie="popped=yes"
+            // var a = time = new Date();// 系统当前时间 
+            // var b =time.setDate(time.getDate() + 7); // 获取当月的某一天
+            // console.log(a)
+            // console.log(b)
+            // document.cookie = 'name=Alice;expires=' + time.toGMTString(); //
+            // document.cookie = 'age=32';  // age 没有设置过期时间，临时存储，当浏览器关闭的时候就会消失
+            // console.log(document.cookie); 
+            
+
+            // 设置cookie  hair black
+            function setCookie(key,value,expires) {
+                time = new Date();
+                console.log(time)
+                console.log(time.getDate())
+                time.setDate(time.getDate() + expires);
+                document.cookie = key + '=' + value + ';expires=' + time.toGMTString();
+            }
+            // setCookie("hair","black",5);
+            // 获取某一条cookie
+             function getCookie(key) {
+                var arr1 = document.cookie.split("; ");
+                console.log(arr1);// ["age=32","chetai=4","name=Alice"]
+                for(var i=0; i<arr1.length; i++) {
+                    var arr2 = arr1[i].split("=");
+                    console.log(arr2);
+                    if(arr2[0] == key) {
+                        return arr2[1];
+                    }
+                }
+             }
+
+            //  console.log(getCookie('name'));
+            //  console.log(getCookie('age'));
+
+             function removeCookie(key) {
+                setCookie(key,'',-1);
+                /* 
+                    如果删除某条cookie,那么设置某条COOKIE过期，
+                */
+             }
+            // removeCookie('name');
+        }
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
