@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        /* 
+            WebStorage:网络存储
+            常用于：网站登陆界面，注册，修改密码或者不同页面使用同一个数据时，
+            可以把数据存储于本地浏览器中实现多页面之间共享数据
+            name="lili"
+            第一种：localStorage：本地存储
+                api: 
+                存储一条数据：
+                setItem(key,value)key:键，value:值
+                key相当于变量名，设置和获取的时候要相同
+                setItem("name","lili")
+                获取一条数据：getItem(key)
+                删除一条数据：removeItem(key)
+                全部删除：clear()
+            存储数据类型：字符串，数字，布尔，数组，对象
+            数组和对象存储和获取的时候要使用序列化与反序列化方法
+            localStorage存储数据的特点
+            1、存储数据大小为5M
+            2、能长时间存储数据，除非人为删除
+
+            第二种：sessionStorage:会话存储
+                api
+                设置
+                sessionStorage.setItem(key,value)
+                获取
+                sessionStorage.getItem(key)
+                删除
+                sessionStorage.removeItem(key)
+            特点： 
+            1、存储大小也是5M
+            2、存储时间是当前会话时间，关闭浏览器以后数据失效
+        
+        */
+        window.onload = function () {
+            alert(sessionStorage.getItem("today"))
+            var aBtn = document.querySelectorAll("input");
+            // 设置一条localStorage
+            aBtn[0].onclick = function () {
+                localStorage.setItem("name", aBtn[3].value);
+            }
+            // 获取一条localStorage
+            aBtn[1].onclick = function () {
+                console.log(localStorage.getItem("name"))
+            }
+            //删除一条localStorage
+            aBtn[2].onclick = function () {
+                localStorage.removeItem("name")
+            }
+            /* 
+                注意：存储和获取的类型都是字符串，
+                所以我们在需要的时候配合以下两个方法使用可以帮助我们转化成我们需要的数据
+                JSON.stringfiy() 序列化，对象转化成字符串
+                JSON.parse() 反序列化，字符串转成对象
+            */
+            var obj = {
+                name: "lili",
+                age: 13
+            }
+            localStorage.setItem("arr", JSON.stringify(obj));
+            var arr = localStorage.getItem("arr");
+            console.log(typeof arr) // string
+            var newArr = JSON.parse(arr)
+            console.log(typeof newArr); // object
+            setTimeout(function () {
+                sessionStorage.setItem("today", "aaa")
+            }, 10000)
+
+        }
+    </script>
+</head>
+
+<body>
+    <input type="button" value="设置">
+    <input type="button" value="获取">
+    <input type="button" value="删除">
+    <input type="text" name="" id="t1">
+</body>
+
+</html>
