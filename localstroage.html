@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <label for="name">姓名：</label>
+        <input type="text" id="name" placeholder="请输入用户名">
+        </br>
+        <span>性别：</span>
+        <input type="radio" value="男" name="sex">男
+        <input type="radio" value="女" name="sex">女
+        </br>
+        <span>内容：</span>
+        <textarea name="" id="t1" cols="30" rows="10"></textarea>
+    </form>
+    <script>
+        /* 
+            当页面再次打开的时候，输入框中已填的信息仍保存着
+            什么时候存localStorage中？
+            关闭页面的时候存
+            关闭页面的事件 window.onunload
+            什么时候获取localStorage?
+            页面打开时候获取
+        */
+        var aInput = document.getElementsByTagName("input");
+        var oT = document.getElementById("t1");
+        // 页面打开时获取数据
+        if (localStorage.getItem("name")) {
+            aInput[0].value = localStorage.getItem("name");
+        }
+        // 获取性别
+        for (var i = 0; i < aInput.length; i++) {
+            if (localStorage.getItem("sex") == aInput[i].value) {
+                aInput[i].checked = true;
+            }
+        }
+        // 获取内容
+        if (localStorage.getItem("content")) {
+            oT.value = localStorage.getItem("content");
+        }
+        // 关闭页面时候存储数据
+        window.onunload = function () {
+            // 判断当输入框有内容的时候存值
+            if (aInput[0].value) {
+                localStorage.setItem("name", aInput[0].value);
+            }
+            // 存性别
+            for (var i = 0; i < aInput.length; i++) {
+                if (aInput[i].checked == true) {
+                    localStorage.setItem("sex", aInput[i].value)
+                }
+            }
+            // 存输入内容
+            if (oT.value) {
+                localStorage.setItem("content", oT.value);
+            }
+        }
+    </script>
+</body>
+
+</html>
