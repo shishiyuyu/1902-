@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>地上有石子，捡几个吧</title>
+    <style type="text/css">
+        .basket {
+            width: 400px;
+            height: 200px;
+            border: 1px solid black;
+        }
+
+        .floor {
+            width: 500px;
+            height: 80px;
+            border: 1px solid black;
+        }
+
+        .shizi {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #ccc;
+            border-radius: 20px;
+            margin-top: 40px;
+            text-align: center;
+            line-height: 40px;
+        }
+    </style>
+    <script type="text/javascript">
+        // window.addEventListener("load",handler,false);
+        // function handler(){
+        //     var floor = document.getElementById("floor");
+        //     var basket = document.getElementById("basket");
+        //     var shizi;
+        //     floor.addEventListener("dragstart",function(e){
+        //         console.log(e);
+        //         if(e.target.className == "shizi"){
+        //             shizi = e.target;
+        //             var dt = e.dataTransfer;
+        //             dt.effectedAllowed = "all";
+        //         }
+        //     },false);
+
+        //     basket.addEventListener("dragend",function(e){e.preventDefault()},false);
+        //     basket.addEventListener("drop",function(e){
+        //         var data = e.dataTransfer.getData("text/plain");
+        //         basket.appendChild(shizi);
+        //         e.preventDefault();
+        //         e.stopPropagation();
+        //     },false);
+
+        //     document.ondragover = function(e){e.preventDefault();}
+        //     document.ondrop = function(e){e.preventDefault();}
+        // }
+
+        window.onload = function () {
+            var oB = document.getElementById("basket");
+            var oF = document.getElementById("floor");
+            var balls = oF.getElementsByTagName("span");
+            for (var i = 0; i < balls.length; i++) {
+                // balls[i]._index = i;
+                // balls[i].ondragstart = function(ev) {
+                //     ev.dataTransfer.setData("num",this._index);
+                // }
+
+                balls[i].ondragstart = function (ev) {
+                    ev.dataTransfer.setData("num", this.getAttribute("data-id"));
+                }
+            }
+            oB.ondragover = function (ev) {
+                ev.preventDefault();
+            }
+            oB.ondrop = function (ev) {
+                console.log(ev.dataTransfer.getData("num"));
+                for (var i = 0; i < balls.length; i++) {
+                    if (balls[i].getAttribute("data-id") == ev.dataTransfer.getData("num")) {
+                        oF.removeChild(balls[i]);
+                    }
+                }
+
+                var span = document.createElement("span");
+                span.innerHTML = "石子";
+                span.style.background = "red";
+                span.style.marginRight = "5px";
+                span.style.width = "40px";
+                span.style.height = "40px";
+                span.style.borderRadius = "15px";
+                oB.appendChild(span);
+                // for(var i=0;i<balls.length;i++) {
+                //     balls[i].setAttribute("data-id","")
+                // }
+            }
+
+
+        }
+    </script>
+</head>
+
+<body>
+    <p>从前有个人走在丛林里，传来一个声音，说地上有石子，捡几个吧，会有用的。那个人不以为然，捡了一个，但是走出从林后发现手中的石子变成了金子...(
+        这个故事充满了哲学智慧)，下面我们要给出一些石子，希望你能把它捡到篮子里，没准变成金子哦！！
+    </p>
+    <h4>我是篮子</h4>
+    <div class="basket" id="basket"></div>
+    <h4>我是地</h4>
+    <div class="floor" id="floor">
+        <span class="shizi" draggable="true" data-id="1">石子</span>
+        <span class="shizi" draggable="true" data-id="2">石子</span>
+        <span class="shizi" draggable="true" data-id="3">石子</span>
+        <span class="shizi" draggable="true" data-id="4">石子</span>
+        <span class="shizi" draggable="true" data-id="5">石子</span>
+        <span class="shizi" draggable="true" data-id="6">石子</span>
+        <span class="shizi" draggable="true" data-id="7">石子</span>
+        <span class="shizi" draggable="true" data-id="8">石子</span>
+        <span class="shizi" draggable="true" data-id="9">石子</span>
+        <span class="shizi" draggable="true" data-id="10">石子</span>
+    </div>
+</body>
+
+</html>
