@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            width: 300px;
+            height: 300px;
+            background: red;
+        }
+    </style>
+    <script>
+
+        window.onload = function () {
+
+            var oBox = document.getElementById("box");
+            var oUl = document.getElementById("ul");
+
+            // 进入目标元素触发的事件
+            oBox.ondragenter = function () {
+                this.innerHTML = "可以释放啦";
+            }
+            //在进入目标元素和离开目标元素之间触发的事件,连续触发
+            oBox.ondragover = function (ev) {
+                // document.title = num++;
+                ev.preventDefault(); // 阻止默认事件
+            }
+            // 离开目标元素触发的事件
+            oBox.ondragleave = function () {
+                this.style.background = "red";
+                this.innerHTML = "将文件拖放到此区域";
+            }
+
+            // drop事件在目标元素上释放鼠标事件
+            oBox.ondrop = function (ev) {
+                ev.preventDefault(); // 阻止浏览器打开图片
+
+                var fs = ev.dataTransfer.files;
+                for (var i = 0; i < fs.length; i++) {
+                    if (fs[i].type.indexOf("image") !== -1) {
+                        var fd = new FileReader();
+                        fd.readAsDataURL(fs[i]);
+                        fd.onload = function () {
+                            var oLi = document.createElement("li");
+                            var oImg = document.createElement("img");
+                            oImg.src = this.result;
+                            oLi.appendChild(oImg);
+                            oUl.appendChild(oLi);
+                        }
+                    }
+                    else {
+                        alert("请上传图片类型的文件");
+                    }
+
+                }
+
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <div id="box">将文件拖放到此区域</div>
+    <ul id="ul"></ul>
+</body>
+
+</html>
