@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            overflow: hidden;
+        }
+
+        li {
+            float: left;
+            list-style: none;
+            border: 1px solid #000;
+            margin-right: 10px;
+            padding: 10px;
+        }
+
+        li img {
+            width: 255px;
+            height: 280px;
+        }
+
+        li p {
+            border-bottom: 1px dashed #000;
+            margin: 0 auto;
+            height: 30px;
+        }
+
+        li p:last-child {
+            border-bottom: none;
+        }
+
+        #box {
+            width: 600px;
+            height: 400px;
+            border: 1px solid #000;
+        }
+
+        .num {
+            float: left;
+            width: 200px;
+        }
+
+        .book {
+            float: left;
+            width: 200px;
+        }
+
+        .price {
+            float: left;
+            width: 200px;
+        }
+
+        p {
+            border-bottom: 1px dashed #000;
+            height: 20px;
+        }
+
+        #totalPrice {
+            float: right;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var aLi = document.getElementsByTagName("li");
+            var oDiv = document.getElementById("box");
+            var obj = {};
+            var totalPrice = null;
+            var iNum = 0;
+
+            for (var i = 0; i < aLi.length; i++) {
+
+                aLi[i].ondragstart = function (ev) {
+                    var aP = this.getElementsByTagName("p");
+                    console.log(aP);
+                    ev.dataTransfer.setData("name", aP[0].innerHTML);
+                    ev.dataTransfer.setData("price", aP[1].innerHTML);
+                }
+            }
+
+            oDiv.ondragover = function (ev) {
+                ev.preventDefault();
+            }
+
+            oDiv.ondrop = function (ev) {
+
+                ev.preventDefault();
+
+                var name = ev.dataTransfer.getData("name");
+                var price = ev.dataTransfer.getData("price");
+                console.log(name);
+                console.log(price);
+                // oDiv.innerHTML = "";
+                if (!obj[name]) {
+                    // 创建p
+                    var p = document.createElement("p");
+                    // 创建第一个span 数量
+                    var oSpan1 = document.createElement("span");
+                    oSpan1.className = 'num';
+                    oSpan1.innerHTML = 1;
+                    p.appendChild(oSpan1);
+                    // 创建第二个span 书的名字
+                    var oSpan2 = document.createElement("span");
+                    oSpan2.className = 'book';
+                    oSpan2.innerHTML = name;
+                    p.appendChild(oSpan2);
+                    // 创建第三个span 价格
+                    var oSpan3 = document.createElement("span");
+                    oSpan3.className = 'price';
+                    oSpan3.innerHTML = price;
+                    p.appendChild(oSpan3);
+
+                    oDiv.appendChild(p);
+
+                    obj[name] = 1;
+
+                    console.log(obj);
+                } else {
+
+                    var num = document.getElementsByClassName("num");
+                    var book = document.getElementsByClassName("book");
+
+                    for (var i = 0; i < book.length; i++) {
+
+                        if (book[i].innerHTML == name) {
+                            num[i].innerHTML = parseInt(num[i].innerHTML) + 1;
+                        }
+                    }
+                }
+
+                if (!totalPrice) {
+                    console.log(1);
+                    var totalPrice = document.createElement("div");
+                    totalPrice.id = 'totalPrice';
+                }
+                // console.log(parseInt(price))
+                iNum += parseInt(price);
+                console.log(iNum)
+                totalPrice.innerHTML = iNum + "￥";
+                oDiv.appendChild(totalPrice);
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <ul>
+        <li draggable="true">
+            <img src="img1.jpg" />
+            <p>javascipt语言精粹</p>
+            <p>40￥</p>
+        </li>
+        <li draggable="true">
+            <img src="img2.jpg" />
+            <p>javascript权威指南</p>
+            <p>120￥</p>
+        </li>
+        <li draggable="true">
+            <img src="img3.jpg" />
+            <p>精通javascript</p>
+            <p>35￥</p>
+        </li>
+        <li draggable="true">
+            <img src="img4.jpg" />
+            <p>DOM编程艺术</p>
+            <p>45￥</p>
+        </li>
+    </ul>
+    <div id="box">
+        <!-- <p>
+            <span class="num">1</span>
+            <span class="book">DOM编程艺术</span>
+            <span class="price">45￥</span>
+        </p>
+        <p>
+            <span class="num">1</span>
+            <span class="book">DOM编程艺术</span>
+            <span class="price">45￥</span>
+        </p>
+        <div id="totalPrice">90</div> -->
+    </div>
+</body>
+
+</html>
